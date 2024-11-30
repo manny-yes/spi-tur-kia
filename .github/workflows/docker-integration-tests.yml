@@ -17,8 +17,7 @@ jobs:
       - name: Build image and start services with Docker Compose
         run: |
           cd deploy
-          #docker compose -f docker-compose-build.yml up -d
-          docker compose -f docker-compose-build.yml up #debug
+          docker compose -f docker-compose-build.yml --env-file custom.env up -d
 
       - name: Wait for the app to be ready
         run: |
@@ -54,5 +53,5 @@ jobs:
         if: always()
         run: |
           cd deploy
-          docker compose -f docker-compose-build.yml down --volumes
+          docker compose -f docker-compose-build.yml --env-file custom.env down --volumes
 
