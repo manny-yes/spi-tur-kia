@@ -1,0 +1,8 @@
+en:
+  spina:
+    spina_test:
+      title: Test plugin
+      settings:
+        test_setting: Test setting
+        foobar: Foobar
+  
