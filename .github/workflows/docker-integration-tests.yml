@@ -42,7 +42,8 @@ jobs:
         run: |
           # Example test: Check if the homepage returns 200 OK
           response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/)
-          if [ "$response" -eq 200 ]; then
+          echo $response ; curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/ #debug
+          if [ "$response" -eq "200" ]; then
             echo "Integration test passed: Received 200 OK from the app."
           else
             echo "Integration test failed: Expected 200 OK, got $response."
