@@ -4,8 +4,8 @@ on:
   pull_request:
 
 jobs:
-  test:
-    runs-on: ubuntu:22.04
+  'Integration Tests':
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout code
