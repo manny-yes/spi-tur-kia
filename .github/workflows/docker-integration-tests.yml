@@ -1,0 +1,55 @@
+name: Docker Integration Tests
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu:22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image and start services with Docker Compose
+        run: |
+          cd deploy
+          docker compose -f docker-compose-build.yml up -d
+
+      - name: Wait for the app to be ready
+        run: |
+          echo "Waiting for the app to become available on port 3000..."
+          timeout=100
+          interval=5
+          end=$((SECONDS+timeout))
+          while [ $SECONDS -lt $end ]; do
+            if nc -zv -w1 localhost 3000 2>/dev/null; then
+              echo "App is available!"
+              exit 0
+            else
+              echo "App not available yet, retrying in $interval seconds..."
+              sleep $interval
+            fi
+          done
+          echo "App did not become available within $timeout seconds."
+          docker compose logs
+          exit 1
+
+      - name: Validate return from spina endpoint
+        run: |
+          # Example test: Check if the homepage returns 200 OK
+          response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/)
+          if [ "$response" -eq 200 ]; then
+            echo "Integration test passed: Received 200 OK from the app."
+          else
+            echo "Integration test failed: Expected 200 OK, got $response."
+            exit 1
+          fi
+
+      - name: Tear down services
+        if: always()
+        run: docker compose down --volumes
+
