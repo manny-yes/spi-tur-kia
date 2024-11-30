@@ -17,7 +17,8 @@ jobs:
       - name: Build image and start services with Docker Compose
         run: |
           cd deploy
-          docker compose -f docker-compose-build.yml up -d
+          #docker compose -f docker-compose-build.yml up -d
+          docker compose -f docker-compose-build.yml up #debug
 
       - name: Wait for the app to be ready
         run: |
@@ -51,5 +52,7 @@ jobs:
 
       - name: Tear down services
         if: always()
-        run: docker compose down --volumes
+        run: |
+          cd deploy
+          docker compose -f docker-compose-build.yml down --volumes
 
