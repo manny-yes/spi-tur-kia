@@ -40,7 +40,7 @@ jobs:
 
       - name: Validate return from spina endpoint
         run: |
-          # Example test: Check if the homepage returns 200 OK
+          curl -o /dev/null -w "%{http_code}" http://localhost:3000/
           response=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/)
           echo $response ; curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/ #debug
           if [ "$response" -eq "200" ]; then
