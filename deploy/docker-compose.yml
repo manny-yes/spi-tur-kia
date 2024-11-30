@@ -1,0 +1,41 @@
+---
+services:
+  spina:
+    image: ghcr.io/manny-yes/spina:v2.6.2
+    ports:
+      - "3000:3000"
+    depends_on:
+      spinadb:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASS}@spinadb:${DB_PORT}/${DB_NAME}
+    command: >
+      bash -c "
+      if [ ! -f db/schema.rb ]; then
+        rails db:create &&
+        rails app:active_storage:install && 
+        rails g spina:install --silent;
+      fi &&
+      rails s -b 0.0.0.0"
+    volumes:
+      - spina-data:/app
+
+  spinadb:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_DB: ${DB_NAME}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -p ${DB_PORT}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - spinadb-data:/var/lib/postgresql/data
+
+volumes:
+  spina-data:
+  spinadb-data:
+...
