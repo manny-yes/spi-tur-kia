@@ -1,4 +1,4 @@
-name: Docker Integration Tests
+name: Docker CI - Compose
 
 on:
   pull_request:
