@@ -1,6 +1,3 @@
-LABEL org.opencontainers.image.version v2.6.2-dev
-LABEL org.opencontainers.image.description Dockerized SpinaCMS/Spina by manny-yes
-
 FROM ruby:3.2.6
 
 RUN apt-get update -qq && apt-get install -y \
@@ -28,3 +25,8 @@ EXPOSE 3000
 
 # Default bash
 CMD ["bash"]
+
+# Set labels
+LABEL org.opencontainers.image.version="v2.6.2-dev"
+LABEL org.opencontainers.image.description="Dockerized SpinaCMS/Spina by manny-yes \
+Repository https://github.com/manny-yes/spi-tur-kia"
