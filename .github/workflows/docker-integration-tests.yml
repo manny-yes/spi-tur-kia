@@ -1,0 +1,56 @@
+name: Docker CI - Compose
+
+on:
+  pull_request:
+
+jobs:
+  tests:
+    name: Integration Tests
+    runs-on: ubuntu-22.04
+    env:
+      PORT: 3000
+      DELAY: 2
+      LIMIT: 60
+      CMDCOMP: "docker compose -f docker-compose-build.yml --env-file custom.env"
+      CMDHTTP: "nc -zv -w1"
+      CMDCURL: "curl -s -o /dev/null -w %{http_code}"
+    defaults:
+      run:
+        working-directory: deploy/
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build image and start services with Docker Compose
+        run: $CMDCOMP up -d
+
+      - name: Wait for the service to be available at the TCP level
+        run: |
+          echo "Testing port readiness for localhost:$PORT (TCP level)..."; elapsed=0
+          while ! $CMDHTTP localhost $PORT 2>/dev/null; do
+            sleep $DELAY ; elapsed=$((elapsed + DELAY)); echo "Port not ready yet..."
+            if [ $elapsed -ge $LIMIT ]; then
+              echo "::error::Timeout! Port $PORT on localhost is not ready."
+              $CMDCOMP logs; exit 1;
+            fi
+          done
+          echo "::notice::TCP check passed after $elapsed seconds."
+
+      - name: Wait for the app to respond requests with HTTP 200
+        run: |
+          echo "Testing endpoint readiness for localhost:$PORT (HTTP level)..."; elapsed=0
+          while return=$($CMDCURL http://localhost:$PORT/) ; [ $return -ne 200 ]; do
+            sleep $DELAY ; elapsed=$((elapsed + DELAY)); echo "HTTP not ready yet..."
+            if [ $elapsed -ge $LIMIT ]; then
+              echo "::error::Timeout! HTTP on localhost:$PORT is not ready (return code: $return)"
+              $CMDCOMP logs; exit 1;
+            fi
+          done
+          echo "::notice::HTTP check passed after $elapsed seconds."
+
+      - name: Tear down services
+        if: always()
+        run: $CMDCOMP down --volumes
