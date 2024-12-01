@@ -1,4 +1,4 @@
-name: Docker CI - Build and Push
+name: Docker CI - Publish
 
 on:
   push:
@@ -12,11 +12,14 @@ env:
 
 jobs:
   build:
+    name: Build and Push
     runs-on: ubuntu-22.04
     permissions:
       contents: read
       packages: write
-
+    defaults:
+      run:
+        working-directory: deploy/
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -37,7 +40,7 @@ jobs:
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ..
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }} 
