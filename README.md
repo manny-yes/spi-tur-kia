@@ -5,7 +5,11 @@ This project provides a complete setup for building, deploying, and running Spin
 The deployment is based on Docker Compose with two services defined: `spina` and `spinadb`. The first has the application itself, the second is a PostgreSQL database based on the `postgres:15` image. There's a healthcheck included in the `spinadb` definition, which is based on the `pg_isready` command. The service `spina` waits until `spinadb` is healthy, then proceeds to start. Spina requires a database to be available beforehand, otherwise it fails during initialization.
 
 ## Quickstart
-Clone the repo, go to the `deploy/` directory and run `docker-compose -f docker-compose.yml --env-file custom.env up -d`. App will be available at http://localhost:3000.
+Clone the repo, go to the `deploy/` directory and run:
+```bash
+docker-compose -f docker-compose.yml --env-file custom.env up -d
+```
+App will be available at http://localhost:3000.
 
 ## Workflows
 [![Docker CI - Compose](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml/badge.svg?event=pull_request)](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml)
