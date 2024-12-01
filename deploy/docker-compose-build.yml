@@ -1,7 +1,7 @@
 ---
 services:
   spina:
-    image: localhost/manny-yes/spina:v2.6.2-build
+    image: localhost/manny-yes/spi-tur-kia/spina:latest
     build:
       context: ..
       dockerfile: deploy/Dockerfile
