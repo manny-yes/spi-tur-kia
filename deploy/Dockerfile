@@ -1,12 +1,12 @@
+LABEL org.opencontainers.image.version v2.6.2-dev
+LABEL org.opencontainers.image.description Dockerized SpinaCMS/Spina by manny-yes
+
 FROM ruby:3.2.6
 
 RUN apt-get update -qq && apt-get install -y \
     build-essential \
     libpq-dev \
-    postgresql-client \
-    nodejs \
-    curl \
-    tar
+    nodejs
 
 # Set working directory
 WORKDIR /app
@@ -28,4 +28,3 @@ EXPOSE 3000
 
 # Default bash
 CMD ["bash"]
-

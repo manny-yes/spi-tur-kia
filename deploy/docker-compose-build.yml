@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: deploy/Dockerfile
     ports:
-      - "3000:3000"
+      - "${DB_PORT}:${DB_PORT}"
     depends_on:
       spinadb:
         condition: service_healthy

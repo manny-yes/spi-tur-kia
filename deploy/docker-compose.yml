@@ -1,9 +1,9 @@
 ---
 services:
   spina:
-    image: ghcr.io/manny-yes/spina:v2.6.2
+    image: ghcr.io/manny-yes/spi-tur-kia/spina:v2.6.2
     ports:
-      - "3000:3000"
+      - "${DB_PORT}:${DB_PORT}"
     depends_on:
       spinadb:
         condition: service_healthy
