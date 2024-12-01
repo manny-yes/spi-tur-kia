@@ -8,12 +8,12 @@ jobs:
     name: Integration Tests
     runs-on: ubuntu-22.04
     env:
-      PORT=3000
-      DELAY=2
-      LIMIT=60
-      CMDCOMP="cd deploy; docker compose -f docker-compose-build.yml --env-file custom.env"
-      CMDHTTP="nc -zv -w1"
-      CMDCURL="curl -s -o /dev/null -w %{http_code}"
+      PORT: 3000
+      DELAY: 2
+      LIMIT: 60
+      CMDCOMP: "cd deploy; docker compose -f docker-compose-build.yml --env-file custom.env"
+      CMDHTTP: "nc -zv -w1"
+      CMDCURL: "curl -s -o /dev/null -w %{http_code}"
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
