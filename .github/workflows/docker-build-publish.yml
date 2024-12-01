@@ -3,8 +3,7 @@ name: Docker CI - Publish
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    tags: [ 'v*' ]
 
 env:
   REGISTRY: ghcr.io
