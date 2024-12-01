@@ -7,8 +7,9 @@ The deployment is based on Docker Compose with two services defined: `spina` and
 ## Quickstart
 Clone the repo, go to the `deploy/` directory and run `docker-compose -f docker-compose.yml --env-file custom.env up -d`. App will be available at http://localhost:3000.
 
-## CI Status
+## Workflows
 [![Docker CI - Compose](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml/badge.svg?event=pull_request)](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml)
+
 [![Docker CI - Publish](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-build-publish.yml/badge.svg?event=push)](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-build-publish.yml)
 
 ## Repository Structure
