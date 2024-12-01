@@ -58,7 +58,7 @@ To build the image locally without running it, go to the root path of the reposi
 ```bash
 docker build -t localhost/spina:v2.6.2-localbuild -f deploy/Dockerfile .
 ```
-The entrypoint is `bash`, which allows for code inspection but don't start any services.
+The entrypoint of all built is `bash`, which allows for code inspection but don't start any services.
 
 ## Developer Experience
 
@@ -101,6 +101,13 @@ docker cp deploy-spina-1:/app/Gemfile.lock Gemfile.lock
   - Publishes the image to `ghcr.io`.
 - **Workflow File**: `.github/workflows/docker-build-publish.yml`
 
+## Source Code and Images
+- The `src/` directory contains the unchanged contents of [SpinaCMS v2.6.2](https://github.com/SpinaCMS/Spina/archive/refs/tags/v2.6.2.tar.gz).
+- Images
+    - Image `ghcr.io/manny-yes/spi-tur-kia/spina:v2.6.2` has the SpinaCMS v2.6.2 source code as is.
+    - Image `ghcr.io/manny-yes/spi-tur-kia/spina:v2.6.2-update` has an updated `Gemfile.lock` after a `bundle update`.
+- To deploy a different published image, just edit the image on the `docker-compose.yml` file.
+
 ## Problems Found
 
 ### PG Gem Build Error
@@ -109,6 +116,3 @@ docker cp deploy-spina-1:/app/Gemfile.lock Gemfile.lock
   pg_result.c:1590:65: error: ‘rb_cData’ undeclared (first use in this function)
   ```
 - **Solution**: Added `RUN bundle update pg` to the `Dockerfile` to resolve the issue at build time.
-
-## Source Code
-- The `src/` directory contains the unchanged contents of [SpinaCMS v2.6.2](https://github.com/SpinaCMS/Spina/archive/refs/tags/v2.6.2.tar.gz).
