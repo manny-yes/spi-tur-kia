@@ -3,7 +3,7 @@ services:
   spina:
     image: ghcr.io/manny-yes/spi-tur-kia/spina:v2.6.2
     ports:
-      - "${DB_PORT}:${DB_PORT}"
+      - "3000:3000"
     depends_on:
       spinadb:
         condition: service_healthy
