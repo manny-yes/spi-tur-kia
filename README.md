@@ -2,7 +2,7 @@
 
 This project provides a complete setup for building, deploying, and running Spina CMS (v2.6.2) in a Dockerized environment. The repository includes options for deploying the pre-built Docker image from GHCR or building the image locally.
 
-The deployment is based on Docker Compose with two services defined: `spina` and `spinadb`. The first has the application itself, the second is a PostgreSQL database based on the `postgres:15` image. There's a healthcheck included in the `spinadb` definition, which is based on the `pg_isready` command. The service `spina` waits until `spinadb` is healthy, then proceeds to start. Spina requires a database to be available from the start.
+The deployment is based on Docker Compose with two services defined: `spina` and `spinadb`. The first has the application itself, the second is a PostgreSQL database based on the `postgres:15` image. There's a healthcheck included in the `spinadb` definition, which is based on the `pg_isready` command. The service `spina` waits until `spinadb` is healthy, then proceeds to start. Spina requires a database to be available beforehand, otherwise it fails during initialization.
 
 ## Repository Structure
 
