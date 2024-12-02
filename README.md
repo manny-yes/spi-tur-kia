@@ -9,7 +9,15 @@ Clone the repo, go to the `deploy/` directory and run:
 ```bash
 docker-compose -f docker-compose.yml --env-file custom.env up -d
 ```
-App will be available at http://localhost:3000.
+App will be available after a couple of minutes with default Spina settings:
+```
+Restart your server and visit http://localhost:3000 in your browser!
+The admin backend is located at http://localhost:3000/admin.
+Site name      :  MySite
+Active theme   :  default
+User email     :  admin@domain.com
+User password  :  password
+```
 
 ## Workflows
 [![Docker CI - Compose](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml/badge.svg?event=pull_request)](https://github.com/manny-yes/spi-tur-kia/actions/workflows/docker-integration-tests.yml)
